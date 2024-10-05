@@ -33,15 +33,15 @@
 1. 토큰 처리: front end에서 매 요청시 토큰을 헤더에 담아 보냄. 그래서 요청 헤더에서 토큰을 꺼내려면 헤더 이름을 양쪽에서 맞춰야함
 
    TokenProvider 클래스
+   
    public String resolveToken(HttpServletRequest request) {
 
-  
-       return request.getHeader("auth_token"); // front end에서 헤더에 auth_token이름으로 토큰 보내야함
+      return request.getHeader("auth_token"); // front end에서 헤더에 auth_token이름으로 토큰 보내야함
 
    }
 
 3. 파일업로드
-  - application.properties: spring.servlet.multipart.location=C:/img/
+  - application.properties: spring.servlet.multipart.location=C:/img/      [파일로 이동](github.com/kingnuna/backapp/blob/master/src/main/resources/application.properties)
   - controller:
 
     
@@ -53,17 +53,13 @@
     public Map upload(Dto dto){
 
       String fname = dto.getF().getOriginalFilename(); //upload된 파일의 원본 파일명
-
     
-		File f = new File(path + fname); //upload된 파일을 저장할 새 파일 생성
-
-
-	   dto.getF().transferTo(f); //MultipartFile 클래스의 transferTo() 메서드로 업로드된 파일을 서버에 저장
+      File f = new File(path + fname); //upload된 파일을 저장할 새 파일 생성
+    
+      dto.getF().transferTo(f); //MultipartFile 클래스의 transferTo() 메서드로 업로드된 파일을 서버에 저장
 
     }
     
-    
-  - 
    
 5. 이미지 전송
 
