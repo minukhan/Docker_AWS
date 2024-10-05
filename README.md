@@ -42,7 +42,7 @@
 
 3. 파일업로드
   - application.properties: spring.servlet.multipart.location=C:/img/      [파일로 이동](https://github.com/kingnuna/backapp/blob/master/src/main/resources/application.properties)
-  - controller:
+  - controller:   [파일로 이동](https://github.com/kingnuna/backapp/blob/master/src/main/java/com/example/backapp/cafe/CafeprodController.java)
 
     
     @Value("${spring.servlet.multipart.location}")
