@@ -32,7 +32,7 @@
 
 1. 토큰 처리: front end에서 매 요청시 토큰을 헤더에 담아 보냄. 그래서 요청 헤더에서 토큰을 꺼내려면 헤더 이름을 양쪽에서 맞춰야함
 
-   TokenProvider 클래스
+   TokenProvider 클래스   [파일로 이동](https://github.com/kingnuna/backapp/blob/master/src/main/java/com/example/backapp/auth/TokenProvider.java)
    
    public String resolveToken(HttpServletRequest request) {
 
@@ -40,7 +40,7 @@
 
    }
 
-3. 파일업로드
+2. 파일업로드
   - application.properties: spring.servlet.multipart.location=C:/img/      [파일로 이동](https://github.com/kingnuna/backapp/blob/master/src/main/resources/application.properties)
   - controller:   [파일로 이동](https://github.com/kingnuna/backapp/blob/master/src/main/java/com/example/backapp/cafe/CafeprodController.java)
 
@@ -61,7 +61,36 @@
     }
     
    
-5. 이미지 전송
+3. 이미지 전송
+
+   - front end에 이미지 바이너리 값 전달
+   - 메서드 구현   [파일로 이동](https://github.com/kingnuna/backapp/blob/master/src/main/java/com/example/backapp/cafe/CafeprodController.java)
+
+     @GetMapping("/read-img/{fname}")
+     
+	public ResponseEntity<byte[]> read_img(@PathVariable("fname")String fname) {
+
+		ResponseEntity<byte[]> result = null;
+
+		File f = new File(path + fname);
+
+		HttpHeaders header = new HttpHeaders(); //import org.springframework.http.HttpHeaders;
+
+		try {
+
+			header.add("Content-Type", Files.probeContentType(f.toPath()));
+   
+			result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(f),header, HttpStatus.OK);
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}   
+
+		return result;
+
+	}
 
 
 
