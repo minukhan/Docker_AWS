@@ -22,8 +22,7 @@ import lombok.ToString;
 @ToString
 public class Cafeprod {
 	@Id
-	@SequenceGenerator(name = "seq_gen", sequenceName = "seq_cafeprod", allocationSize = 1) // 시퀀스 생성
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cafeprod")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int num;
 	private String name;
 	private int price;
