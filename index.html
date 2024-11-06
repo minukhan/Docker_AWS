@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3 th:text="${type}"></h3>
+<h4 th:text="${showRange}"></h4>
+<table border="1">
+<tr th:each="b:${list}"> 
+<td th:text="${b.rnum}"></td>
+<td th:text="${b.rank}"></td>
+<td th:text="${b.movieCd}"></td>
+<td th:text="${b.movieNm}"></td>
+<td th:text="${b.openDt}"></td>
+<td th:text="${b.audiAcc}"></td>
+<td th:text="${b.salesAcc}"></td></tr>
+</table>
+</body>
+</html>
