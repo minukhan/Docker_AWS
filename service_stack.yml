@@ -1,0 +1,72 @@
+version: '3' 
+ 
+services: 
+  database: 
+    image: mysql:8.0 
+    restart: always 
+    environment: 
+      MYSQL_DATABASE: world 
+      MYSQL_ROOT_HOST: '%' 
+      MYSQL_ROOT_PASSWORD: 1234 
+      TZ: 'Asia/Seoul' 
+    ports: 
+     - "3306:3306" 
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./:/var/lib/mysql
+    deploy: 
+     mode: global 
+     placement: 
+       constraints: [node.labels.type == mem] 
+    networks: 
+     - test_network 
+ 
+  myapp1: 
+     depends_on: 
+        - database 
+     restart: on-failure 
+     environment: 
+        SPRING_DATASOURCE_URL: jdbc:mysql://myapp_database:3306/world?useSSL=false&allowPublicKeyRetrieval=true 
+        SPRING_DATASOURCE_USERNAME: "root" 
+        SPRING_DATASOURCE_PASSWORD: "1234" 
+     image: kingnuna/auth:v1 
+     ports: 
+        - "8081:8081" 
+     deploy: 
+        mode: global 
+        placement: 
+          constraints: [node.labels.type == auth] 
+     networks: 
+        - test_network 
+ 
+  myapp2: 
+     depends_on: 
+       - database 
+     restart: on-failure 
+     environment: 
+         SPRING_DATASOURCE_URL: jdbc:mysql://myapp_database:3306/world?useSSL=false&allowPublicKeyRetrieval=true 
+         SPRING_DATASOURCE_USERNAME: "root" 
+         SPRING_DATASOURCE_PASSWORD: "1234" 
+     image: kingnuna/mem:v1 
+     deploy: 
+         mode: global 
+         placement: 
+           constraints: [node.labels.type == mem] 
+     ports: 
+        - "8082:8082" 
+     networks: 
+        - test_network 
+  myapp3: 
+       image: kingnuna/reactapp:v1 
+       deploy: 
+         mode: global 
+         placement: 
+           constraints: [node.labels.type == fapp] 
+       ports: 
+         - "3000:3000" 
+       networks: 
+         - test_network
+networks: 
+   test_network: 
